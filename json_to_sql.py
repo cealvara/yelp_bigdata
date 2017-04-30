@@ -79,10 +79,9 @@ def json_to_sql(conn, datainfo, redo=False, skip=0):
                     dataload.append(jsondata[c])
 
                 try:
-                    print('here')
                     sqlcursor.execute('''
                         INSERT INTO {} 
-                        VALUES (?,?,?,?,?,?,?,?,?)
+                        VALUES {}
                         '''.format(tablename, questionmarks), dataload)
                     conn.commit()
                 except:
@@ -94,8 +93,9 @@ def main():
 
     create_tables(conn)
 
-    for filename, columns in REVIEW_DATASET.items():
-        json_to_sql(conn, filename, columns, True, 4013070)
+    json_to_sql(conn, BUSINESS_DATASET, False)
+
+    json_to_sql(conn, REVIEW_DATASET, True, skip=4013070)
     
 
 if __name__ == '__main__':
