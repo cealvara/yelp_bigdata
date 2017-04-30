@@ -31,7 +31,7 @@ def similarity(text0, text1):
 
 def main():
 
-    with open('outputfile.txt', 'r') as f:
+    with open('intermediate_file.txt', 'r') as f:
         count = 0
         
         for line in f:

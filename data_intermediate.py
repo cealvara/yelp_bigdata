@@ -15,7 +15,7 @@ def main(conn):
 
     count = 0
 
-    with open('outputfile.txt', 'w') as f:
+    with open('intermediate_file.txt', 'w') as f:
 
         for result in sqlcursor:
             str_to_file = "|".join(list(result)).replace("\n", "")
