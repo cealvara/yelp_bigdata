@@ -18,8 +18,9 @@ def main(conn):
     with open('outputfile.txt', 'w') as f:
 
         for result in sqlcursor:
+            str_to_file = "|".join(list(result)).replace("\n", "")
             
-            f.write("|".join(list(result)))
+            f.write(str_to_file)
             f.write("\n")
             
             count += 1
