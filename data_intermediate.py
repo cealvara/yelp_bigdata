@@ -7,15 +7,15 @@ def main(conn):
     sqlcursor.execute('''
         SELECT * FROM  
             (SELECT business_id, review_id, text 
-            FROM BUSINESS JOIN REVIEW USING (business_id) LIMIT 2)
+            FROM BUSINESS JOIN REVIEW USING (business_id) LIMIT 100)
         JOIN 
             (SELECT business_id, review_id, text 
-            FROM BUSINESS JOIN REVIEW USING (business_id) LIMIT 2);
+            FROM BUSINESS JOIN REVIEW USING (business_id) LIMIT 100);
         ''')
 
     count = 0
 
-    with open('outputfile', 'w') as f:
+    with open('outputfile.txt', 'w') as f:
 
         for result in sqlcursor:
             
