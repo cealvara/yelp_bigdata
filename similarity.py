@@ -23,14 +23,18 @@ def vectorize(text):
 
     return vector_text
 
+
 def similarity(text0, text1):
     '''
     Function to calculate the similarity between two vector texts
     '''
     return abs(len(text0) - len(text1))
 
-def main():
 
+def main():
+    '''
+    WE WOULD REPLACE THIS WITH A MAP-REDUCE APPROACH
+    '''
     with open('intermediate_file.txt', 'r') as f:
         count = 0
         
