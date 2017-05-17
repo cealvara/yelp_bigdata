@@ -29,8 +29,8 @@ def get_info_instances():
 
             instance[column_name] = line[ini_pos:end_pos].strip()
         
-        #if instance['NAME'] != 'base-instance-free':
-        instances.append(instance)
+        if instance['NAME'] != 'base-instance-free':
+            instances.append(instance)
 
     print(instances)
     f.close()
