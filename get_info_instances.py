@@ -34,3 +34,6 @@ def get_info_instances():
     f.close()
     
     return instances
+
+if __name__ == '__main__':
+    get_info_instances()
