@@ -35,7 +35,10 @@ def get_info_instances():
     print(instances)
     f.close()
     
-    return instances
+    if instances:
+        return instances
+
+    return None
 
 if __name__ == '__main__':
     get_info_instances()
