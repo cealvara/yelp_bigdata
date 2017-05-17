@@ -1,3 +1,5 @@
+import subprocess
+
 def get_info_instances():
     query = 'gcloud compute instances list > instances_out.txt'
 
