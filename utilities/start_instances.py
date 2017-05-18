@@ -29,6 +29,19 @@ def copy_files(instances_list):
         #subprocess.call('gcloud compute copy-files ~/LOCAL-FILE-1 ~/LOCAL-FILE-2 \
         #ex#ample-instance:~/REMOTE-DIR --zone us-central1-a')
 
+def ssh_into_others(instances_list):
+    '''
+    Function to log into the first VM and SSH into the other VMs (to get MPI working)
+    '''
+    if len(instances_list) <= 2:
+        return None
+    
+    #First VM is master, others are child
+
+    #send a ssh command to master, for each child
+
+    pass
+
 if __name__ == '__main__':
     try:
         N_MACHINES = int(sys.argv[1])
@@ -46,3 +59,5 @@ if __name__ == '__main__':
     time.sleep(5)
 
     copy_files(instances)
+
+    ssh_into_others(instances)
