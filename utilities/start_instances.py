@@ -23,10 +23,9 @@ def create_hosts_file(instances_list):
 def copy_files(instances_list):
     for instance in instances_list:
         ext_ip = instance['EXTERNAL_IP']
-        subprocess.call('scp -i ~/.ssh/google-cloud-cs123 -o StrictHostKeyChecking=no ~/.ssh/google-cloud-cs123 {}:~/.ssh/id_rsa'.format(ext_ip), shell=True)
-        subprocess.call('scp -i ~/.ssh/google-cloud-cs123 hosts {}:~/hosts'.format(ext_ip), shell=True)
-        #subprocess.call('gcloud compute copy-files ~/LOCAL-FILE-1 ~/LOCAL-FILE-2 \
-        #example-instance:~/REMOTE-DIR --zone us-central1-a')
+        # subprocess.call('scp -i ~/.ssh/google-cloud-cs123 -o StrictHostKeyChecking=no ~/.ssh/google-cloud-cs123 {}:~/.ssh/id_rsa'.format(ext_ip), shell=True)
+        # subprocess.call('scp -i ~/.ssh/google-cloud-cs123 hosts {}:~/hosts'.format(ext_ip), shell=True)
+        subprocess.call('gcloud compute copy-files hosts {}:~/'.format(ext_ip))
 
 def ssh_into_others(instances_list):
     '''
@@ -43,15 +42,13 @@ def ssh_into_others(instances_list):
         #send a ssh command to master, for each child
         subcommand = 'ssh -o StrictHostKeyChecking=no {}'.format(instance['INTERNAL_IP'])
 
-        command = "ssh -i ~/.ssh/google-cloud-cs123" + \
-            " -o StrictHostKeyChecking=no {}".format(master_instance['EXTERNAL_IP']) + \
-            " '{subcommand}'".format(subcommand=subcommand)
+        # command = "ssh -i ~/.ssh/google-cloud-cs123" + \
+        #     " -o StrictHostKeyChecking=no {}".format(master_instance['EXTERNAL_IP']) + \
+        #     " '{subcommand}'".format(subcommand=subcommand)
 
+        command = "gcloud compute ssh {}".format(master_instance['NAME']) + \
+            " --command=' {} '".format(subcommand)
 
-        # "gcloud compute ssh {}".format(master_instance['NAME']) + \
-        #     " --command='ssh -o StrictHostKeyChecking=no" + \
-        #     " {internal_ip}'".format(internal_ip=instance['INTERNAL_IP'])
-        
         subprocess.call(command, shell=True)
 
 
