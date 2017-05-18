@@ -49,7 +49,7 @@ def ssh_into_others(instances_list):
         #     " '{subcommand}'".format(subcommand=subcommand)
 
         command = "gcloud compute ssh {}".format(master_instance['NAME']) + \
-            " --command=' {} '".format(subcommand)
+            " --command=' {} ; exit'".format(subcommand)
 
         subprocess.call(command, shell=True)
 
