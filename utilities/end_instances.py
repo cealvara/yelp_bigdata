@@ -1,7 +1,6 @@
 import subprocess
 
-
-
+from get_info_instances import get_info_instances
 
 def main():
     instances = get_info_instances()
