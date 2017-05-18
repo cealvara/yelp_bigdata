@@ -3,14 +3,13 @@ from google.cloud import bigquery
 def query_shakespeare():
     client = bigquery.Client()
     query_results = client.run_sync_query("""
-        SELECT
-            COUNT(*)
-        FROM `amazon_data.metadata`
-        WHERE metadata.asin =='B00JAPDUJO';""")
+        SELECT asin
+        FROM amazon_data.metadata
+        LIMIT 1;""")
 
     # Use standard SQL syntax for queries.
     # See: https://cloud.google.com/bigquery/sql-reference/
-    query_results.use_legacy_sql = False
+    #query_results.use_legacy_sql = False
 
     query_results.run()
 
