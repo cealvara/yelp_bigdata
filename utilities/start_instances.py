@@ -26,6 +26,7 @@ def copy_files(instances_list):
         iname = instance['NAME']
         # subprocess.call('scp -i ~/.ssh/google-cloud-cs123 -o StrictHostKeyChecking=no ~/.ssh/google-cloud-cs123 {}:~/.ssh/id_rsa'.format(ext_ip), shell=True)
         # subprocess.call('scp -i ~/.ssh/google-cloud-cs123 hosts {}:~/hosts'.format(ext_ip), shell=True)
+        subprocess.call('gcloud compute copy-files ~/.ssh/google-cloud-cs123 {}:~/.ssh/id_rsa'.format(iname), shell=True)
         subprocess.call('gcloud compute copy-files hosts {}:~/'.format(iname), shell=True)
 
 def ssh_into_others(instances_list):
