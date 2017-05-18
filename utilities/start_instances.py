@@ -16,7 +16,6 @@ def create_instances(nmachines):
     subprocess.call(query, shell=True)
 
 def create_hosts_file(instances_list):
-    subprocess.call('rm hosts', shell=True)
     for instance in instances_list:
         subprocess.call('echo {} >> hosts'.format(instance['INTERNAL_IP']), shell=True)
 
@@ -33,12 +32,17 @@ def ssh_into_others(instances_list):
     '''
     Function to log into the first VM and SSH into the other VMs (to get MPI working)
     '''
-    if len(instances_list) <= 2:
+    #if there is just 1 VM, there's no point in ssh into others
+    if len(instances_list) == 1:
         return None
-    
-    #First VM is master, others are child
 
-    #send a ssh command to master, for each child
+    #First VM is master, others are child
+    
+    for instance in instances_list[1:]:
+        #send a ssh command to master, for each child
+        subprocess.call("gcloud compute ssh {iname} --command='ssh -i ~/.ssh/google-cloud-cs123 -o StrictHostKeyChecking=no'".format(iname=instance['NAME']), shell=True)
+
+
 
     pass
 
