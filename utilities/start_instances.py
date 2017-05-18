@@ -45,7 +45,7 @@ def ssh_into_others(instances_list):
 
         command = "ssh -i ~/.ssh/google-cloud-cs123" + \
             " -o StrictHostKeyChecking=no {}".format(master_instance['EXTERNAL_IP']) + \
-            "'{subcommand}'".format(subcommand)
+            "'{subcommand}'".format(subcommand=subcommand)
 
 
         # "gcloud compute ssh {}".format(master_instance['NAME']) + \
