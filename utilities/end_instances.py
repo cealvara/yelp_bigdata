@@ -3,6 +3,7 @@ import subprocess
 from get_info_instances import get_info_instances
 
 def main():
+    subprocess.call('rm hosts', shell=True)
     instances = get_info_instances()
     if instances:
 
