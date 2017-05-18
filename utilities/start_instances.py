@@ -27,7 +27,7 @@ def copy_files(instances_list):
         subprocess.call('scp -i ~/.ssh/google-cloud-cs123 -o StrictHostKeyChecking=no ~/.ssh/google-cloud-cs123 {}:~/.ssh/id_rsa'.format(ext_ip), shell=True)
         subprocess.call('scp -i ~/.ssh/google-cloud-cs123 hosts {}:~/hosts'.format(ext_ip), shell=True)
         #subprocess.call('gcloud compute copy-files ~/LOCAL-FILE-1 ~/LOCAL-FILE-2 \
-        #ex#ample-instance:~/REMOTE-DIR --zone us-central1-a')
+        #example-instance:~/REMOTE-DIR --zone us-central1-a')
 
 def ssh_into_others(instances_list):
     '''
