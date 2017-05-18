@@ -24,8 +24,8 @@ def create_hosts_file(instances_list):
 def copy_files(instances_list):
     for instance in instances_list:
         ext_ip = instance['EXTERNAL_IP']
-        subprocess.call('scp -i ~/.ssh/google-cloud-cs123 -o StrictHostKeyChecking=no ~/.ssh/google-cloud-cs123 cealvara@{}:~/.ssh/id_rsa'.format(ext_ip), shell=True)
-        subprocess.call('scp -i ~/.ssh/google-cloud-cs123 hosts cealvara@{}:~/hosts'.format(ext_ip), shell=True)
+        subprocess.call('scp -i ~/.ssh/google-cloud-cs123 -o StrictHostKeyChecking=no ~/.ssh/google-cloud-cs123 {}:~/.ssh/id_rsa'.format(ext_ip), shell=True)
+        subprocess.call('scp -i ~/.ssh/google-cloud-cs123 hosts {}:~/hosts'.format(ext_ip), shell=True)
 
 
 if __name__ == '__main__':
