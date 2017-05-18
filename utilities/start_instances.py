@@ -37,10 +37,11 @@ def ssh_into_others(instances_list):
         return None
 
     #First VM is master, others are child
-    
+    master_instance = instances_list[0]
+
     for instance in instances_list[1:]:
         #send a ssh command to master, for each child
-        subprocess.call("gcloud compute ssh {iname} --command='ssh -i ~/.ssh/google-cloud-cs123 -o StrictHostKeyChecking=no'".format(iname=instance['NAME']), shell=True)
+        subprocess.call("gcloud compute ssh {master_name} --command='ssh -o StrictHostKeyChecking=no {internal_ip}'".format(master_name=master_instance['NAME'], internal_ip=instance['INTERNAL_IP']), shell=True)
 
 
 
