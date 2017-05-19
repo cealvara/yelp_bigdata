@@ -1,25 +1,21 @@
+from google.cloud import storage
 from mrjob.job import MRJob
 
 import json
-from google.cloud import storage
 import re
 
-WORD_RE = re.compile(r"[\w']+")
+client = storage.Client()
+bucket = client.get_bucket('data-cs123')
 
-pos_words = []
-gcs_file = gcs.open("gs://data-cs123/pos_words.txt")
-for row in gcs_file:
-    pos_words.append(row.rstrip())
-gcs_file.close()
+blob = bucket.get_blob('pos_words.txt')
+pos_words = blob.download_as_string().decode("utf-8").splitlines()
 pos_words = set(pos_words)
 
-neg_words = []
-gcs_file = gcs.open("gs://data-cs123/neg_words.txt")
-for row in gcs_file:
-    neg_words.append(row.rstrip())
-gcs_file.close()
+blob = bucket.get_blob('neg_words.txt')
+neg_words = blob.download_as_string().decode("utf-8").splitlines()
 neg_words = set(neg_words)
 
+WORD_RE = re.compile(r"[\w']+")
 
 class AmazonReviewReduce(MRJob):
 
@@ -80,4 +76,5 @@ class AmazonReviewReduce(MRJob):
 
 
 if __name__ == '__main__':
+
     AmazonReviewReduce.run()
