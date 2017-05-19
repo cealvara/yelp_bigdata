@@ -1,19 +1,22 @@
 from mrjob.job import MRJob
 import json
+import cloudstorage as gcs
 import re
 
 WORD_RE = re.compile(r"[\w']+")
 
 pos_words = []
-with open("gs://data-cs123/pos_words.txt", "r") as f:
-    for row in f:
-        pos_words.append(row.rstrip())
+gcs_file = gcs.open("gs://data-cs123/pos_words.txt")
+for row in gcs_file:
+    pos_words.append(row.rstrip())
+gcs_file.close()
 pos_words = set(pos_words)
 
 neg_words = []
-with open("gs://data-cs123/neg_words.txt", "r") as f:
-    for row in f:
-        neg_words.append(row.rstrip())
+gcs_file = gcs.open("gs://data-cs123/neg_words.txt")
+for row in gcs_file:
+    neg_words.append(row.rstrip())
+gcs_file.close()
 neg_words = set(neg_words)
 
 
