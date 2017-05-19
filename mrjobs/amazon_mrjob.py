@@ -5,13 +5,13 @@ import re
 WORD_RE = re.compile(r"[\w']+")
 
 pos_words = []
-with open("pos_words.txt", "r") as f:
+with open("gs://data-cs123/pos_words.txt", "r") as f:
     for row in f:
         pos_words.append(row.rstrip())
 pos_words = set(pos_words)
 
 neg_words = []
-with open("neg_words.txt", "r") as f:
+with open("gs://data-cs123/neg_words.txt", "r") as f:
     for row in f:
         neg_words.append(row.rstrip())
 neg_words = set(neg_words)
