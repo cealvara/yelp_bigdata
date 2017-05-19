@@ -1,4 +1,8 @@
+import sys
+sys.path.append('../lib')
+
 from mrjob.job import MRJob
+
 import json
 import cloudstorage as gcs
 import re
