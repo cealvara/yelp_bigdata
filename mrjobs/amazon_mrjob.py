@@ -1,10 +1,7 @@
-import sys
-sys.path.append('../lib')
-
 from mrjob.job import MRJob
 
 import json
-import cloudstorage as gcs
+from google.cloud import storage
 import re
 
 WORD_RE = re.compile(r"[\w']+")
