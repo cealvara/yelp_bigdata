@@ -1,6 +1,6 @@
 import subprocess
 
-from get_instances_info import get_instances_info
+from get_info_instances import get_info_instances
 
 def attach(instance, disk_name):
     instance_name = instance['NAME']
@@ -25,7 +25,7 @@ def mount(instance):
 if __name__ == '__main__':
     disk_name = 'main-disk'
 
-    instances = get_instances_info()
+    instances = get_info_instances()
 
     for instance in instances:
 
