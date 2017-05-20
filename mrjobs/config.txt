@@ -1,0 +1,6 @@
+runners:
+ dataproc:
+  bootstrap_python: True
+  bootstrap:
+  - sudo apt-get install python3-pip -y
+  - sudo pip3 install --upgrade google-cloud-storage
