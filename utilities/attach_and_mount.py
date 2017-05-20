@@ -15,7 +15,7 @@ def attach(instance, disk_name):
 def mount(instance):
     instance_name = instance['NAME']
 
-    subcommand = 'mount /dev/sdb /mnt/storage'
+    subcommand = 'sudo mount /dev/sdb /mnt/storage'
 
     command = "gcloud compute ssh {}".format(instance_name) + \
         " --command=' {}'".format(subcommand)
