@@ -1,5 +1,6 @@
 #! /bin/bash
 sudo apt-get update
+sudo apt-get install sqlite3
 sudo apt-get install -y mpich
 sudo apt-get install -y python-pip
 sudo apt-get install -y python-dev
