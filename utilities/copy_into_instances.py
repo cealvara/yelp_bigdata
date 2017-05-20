@@ -5,7 +5,7 @@ from get_info_instances import get_info_instances
 
 if __name__ == '__main__':
     
-    instances = get_info_instances()
+    instances_list = get_info_instances()
 
     files = ''
     for filename in sys.argv[1:]:
