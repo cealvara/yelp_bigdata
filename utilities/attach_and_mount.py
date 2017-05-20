@@ -10,7 +10,7 @@ def attach(instance, disk_name):
         '--disk={} --zone=us-central1-c '.format(disk_name) + \
         '--project=cs123project --mode=ro'
 
-    subprocess(command, shell=True)
+    subprocess.call(command, shell=True)
 
 def mount(instance):
     instance_name = instance['NAME']
@@ -20,7 +20,7 @@ def mount(instance):
     command = "gcloud compute ssh {}".format(instance_name) + \
         " --command=' {}'".format(subcommand)
 
-    subprocess(command, shell=True)
+    subprocess.call(command, shell=True)
 
 if __name__ == '__main__':
     disk_name = 'main-disk'
