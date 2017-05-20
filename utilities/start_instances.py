@@ -5,8 +5,11 @@ import time
 from get_info_instances import get_info_instances
 
 def create_instances(nmachines):
-
-    instance_list = ' '.join(['instance-{}'.format(i) for i in range(nmachines)])
+    '''
+    Function that creates N machines on google cloud
+    '''
+    instance_list = ' '.join(
+        ['instance-{}'.format(i) for i in range(nmachines)])
     
     query = 'gcloud compute instances create ' + instance_list + \
             ' --zone=us-central1-c' + \
@@ -16,8 +19,12 @@ def create_instances(nmachines):
     subprocess.call(query, shell=True)
 
 def create_hosts_file(instances_list):
+    '''
+    Function that creates a "hosts" file, using all instances internal IP
+    '''
     for instance in instances_list:
-        subprocess.call('echo {} >> hosts'.format(instance['INTERNAL_IP']), shell=True)
+        int_ip = instance['INTERNAL_IP']
+        subprocess.call('echo {} >> hosts'.format(int_ip), shell=True)
 
 
 def copy_files(instances_list):
