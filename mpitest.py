@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     c = conn.cursor()
     
-    for i, line in enumerate(f):
+    for i, line in enumerate(json_data):
         line = ast.literal_eval(line)
         asin = line['asin']
     
