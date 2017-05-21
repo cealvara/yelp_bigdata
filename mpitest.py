@@ -18,7 +18,7 @@ if __name__ == '__main__':
     
     offset = rank * STEP
 
-    asin_list = c.execute('''select asin from METADATA order by asin limit 2 offset ?;''', (offset)).fetchall()
+    asin_list = c.execute('''select asin from METADATA order by asin limit 2 offset ?;''', (offset,)).fetchall()
     
     for asin in asin_list:
         c.execute('''select count(*) from ALSOVIEWED where asin=?;''', (asin[0],))
