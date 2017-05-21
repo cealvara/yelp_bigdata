@@ -6,13 +6,18 @@ size = MPI.COMM_WORLD.Get_size()
 rank = MPI.COMM_WORLD.Get_rank()
 name = MPI.Get_processor_name()
 
-conn = sqlite3.connect('/mnt/storage/metadata.db')
+DB_PATH = '/mnt/storage/metadata.db'
 
-c = conn.cursor()
-
-c.execute('''select count(*), category from SALESRANK group by category;''')
-
-for result in c:
-    print(result)
+if __name__ == '__main__':
     
-print("Hello from rank {0} of {1} on {2}".format(rank, size, name))
+    conn = sqlite3.connect(DB_PATH)
+
+    c = conn.cursor()
+
+    asin_list = c.execute('''select asin from METADATA limit 10;''').fetchall()
+
+    for asin in asin_list:
+        c.execute('''select count(*) from ALSOVIEWED where asin=?;''', (asin[0],))
+
+        for result in c:
+            print(asin, result, rank, name)
