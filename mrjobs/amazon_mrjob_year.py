@@ -43,8 +43,10 @@ class AmazonReviewReduce(MRJob):
                 pos_count += 1
             if word in neg_words:
                 neg_count += 1
+                
+            year = review_time[-4:]
 
-        yield asin, [pos_count, neg_count, word_count, review_score, 1]
+        yield (asin, year), [pos_count, neg_count, word_count, review_score, 1]
 
     def reducer(self, product, info):
 
