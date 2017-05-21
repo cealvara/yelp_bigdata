@@ -46,12 +46,6 @@ class AmazonReviewReduce(MRJob):
 
         yield asin, [pos_count, neg_count, word_count, review_score, 1]
 
-        #to build out for time analysis-- pick products with the highest number of reviews 
-        #and set up a binary variable to calculate if a review has above some threshold of 
-        #positive reviews and/or above threshold of negative reviews. Create seasonal/monthly/
-        #yearly buckets in order to capture the time of the review to assess trends in number of 
-        #reviews, positive/negative reivews, etc. across the buckets. 
-
     def reducer(self, product, info):
 
         pos_count = 0
@@ -68,9 +62,6 @@ class AmazonReviewReduce(MRJob):
             review_count += review[4]
 
             avg_score = review_score/review_count
-
-        #fix the reducer so that it doesn't iterate through a list
-        #query the metadata here to grab the price, categories, etc.
 
         yield product, [pos_count, neg_count, word_count, avg_score, review_count]
 
