@@ -41,7 +41,7 @@ if __name__ == '__main__':
         pair_info = (count, asin)
 
         if not outlist.full():
-            self.outlist.put(pair_info)
+            outlist.put(pair_info)
         else:
             curr_min_info = outlist.get()
             if count >= curr_min_info[0]:
