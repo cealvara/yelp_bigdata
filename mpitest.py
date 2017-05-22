@@ -30,7 +30,7 @@ if __name__ == '__main__':
             chunk_asin = []
             index = 0
             while index <= STEP and json_data:
-                line = json_data.readline()
+                line = ast.literal_eval(json_data.readline())
                 asin = line['asin']
                 chunk_asin.append(asin)
 
