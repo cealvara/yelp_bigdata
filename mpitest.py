@@ -51,7 +51,6 @@ if __name__ == '__main__':
     else:
         chunk_asin = comm.recv(source=0, tag=7)
 
-    print(chunk_asin, "in machine", rank)
 
     outlist = PriorityQueue(maxsize=TOP_K_VALUE)
 
@@ -72,9 +71,13 @@ if __name__ == '__main__':
             else:
                 outlist.put(curr_min_info)
 
-    
+    outrv = []
+    while outlist:
+        outrv.append(outlist.get())
+    print(outrv, "in machine", rank)
+
     if rank == 0:
-        gathered_chunks = comm.gather(outlist, root=0)
+        gathered_chunks = comm.gather(outrv, root=0)
 
         print(gathered_chunks)       
 
