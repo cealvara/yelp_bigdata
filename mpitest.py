@@ -13,27 +13,41 @@ JSON_PATH = '/mnt/storage/metadata.json'
 DB_PATH = '/mnt/storage/metadata.db'
 NUMROWS = 9430088
 STEP = int(NUMROWS/size) + 1
-offset = rank * STEP
 
 TOP_K_VALUE = 3
 
 if __name__ == '__main__':
     
-    json_data = open(JSON_PATH, 'r')
-    
-    for _ in range(0, offset):
-        next(json_data)
-    
     conn = sqlite3.connect(DB_PATH)
 
     c = conn.cursor()
     
+    if rank == 0:
+        json_data = open(JSON_PATH, 'r')
+        
+        child_rank = 1 % size
+        while json_data:
+            chunk_asin = []
+            index = 0
+            while index <= STEP and json_data:
+                line = json_data.readline()
+                asin = line['asin']
+                chunk_asin.append(asin)
+
+            if child_rank != 0:
+                comm.send(chunk_asin, dest=child_rank, tag=7)
+            
+            child_rank = (child_rank + 1) % size
+
+        json_data.close()
+    
+    else:
+        chunk_asin = comm.recv(source=0, tag=7)
+
     outlist = PriorityQueue(maxsize=TOP_K_VALUE)
 
-    for i, line in enumerate(json_data):
-        line = ast.literal_eval(line)
-        asin = line['asin']
-    
+    for i, asin in enumerate(chunk_asin):
+   
         query = c.execute('''select count(asin2) from ALSOVIEWED where asin=?;''', (asin,))
 
         count = query.fetchone()[0]
