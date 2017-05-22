@@ -4,6 +4,17 @@ from mrjob.job import MRJob
 import json
 import re
 
+client = storage.Client()
+bucket = client.get_bucket('data-cs123')
+
+blob = bucket.get_blob('pos_words.txt')
+pos_words = blob.download_as_string().decode("utf-8").splitlines()
+pos_words = set(pos_words)
+
+blob = bucket.get_blob('neg_words.txt')
+neg_words = blob.download_as_string().decode("utf-8").splitlines()
+neg_words = set(neg_words)
+
 WORD_RE = re.compile(r"[\w']+")
 
 class AmazonReviewReduce(MRJob):
