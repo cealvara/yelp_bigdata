@@ -1,4 +1,5 @@
 import ast
+import re
 import sqlite3
 
 from mpi4py import MPI
@@ -16,6 +17,8 @@ STEP = int(NUMROWS/size) + 1
 
 TOP_K_VALUE = 10
 
+ASIN_RE = re.compile("'asin': '(\w+)'",row)
+
 if __name__ == '__main__':
     
     conn = sqlite3.connect(DB_PATH)
@@ -32,8 +35,9 @@ if __name__ == '__main__':
             counter = 0
 
             while counter <= STEP and line:
-                data = ast.literal_eval(line)
-                asin = data['asin']
+                asin = ASIN_RE.search(line).group(0)
+                #data = ast.literal_eval(line)
+                #asin = data['asin']
                 chunk_asin.append(asin)
                 counter += 1
                 line = json_data.readline()
