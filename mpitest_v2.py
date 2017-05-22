@@ -61,27 +61,26 @@ if __name__ == '__main__':
         line = json_data.readline()
         curr_pos = json_data.tell()
 
-        asin = ASIN_RE.search(line).group(1)
-   
-        query = c.execute('''select count(asin2) from ALSOVIEWED where asin=?;''', (asin,))
+        try:
+            asin = ASIN_RE.search(line).group(1)
 
-        count = query.fetchone()[0]
+            query = c.execute('''select count(asin2) from ALSOVIEWED where asin=?;''', (asin,))
 
-        pair_info = (count, asin)
+            count = query.fetchone()[0]
 
-        if not outlist.full():
-            outlist.put(pair_info)
-        else:
-            curr_min_info = outlist.get()
-            if count >= curr_min_info[0]:
+            pair_info = (count, asin)
+
+            if not outlist.full():
                 outlist.put(pair_info)
             else:
-                outlist.put(curr_min_info)
-        
-        print(line)
-        counter += 1
-        if counter > 3:
-            break
+                curr_min_info = outlist.get()
+                if count >= curr_min_info[0]:
+                    outlist.put(pair_info)
+                else:
+                    outlist.put(curr_min_info)
+
+        except:
+            print(line)
 
     outrv = []
     while not outlist.empty():
