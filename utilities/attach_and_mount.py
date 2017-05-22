@@ -23,7 +23,7 @@ def mount(instance):
     subprocess.call(command, shell=True)
 
 if __name__ == '__main__':
-    disk_name = 'main-disk'
+    disk_name = 'ssd-disk'
 
     instances = get_info_instances()
 
