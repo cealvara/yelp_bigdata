@@ -1,6 +1,7 @@
 import ast
 import re
 import sqlite3
+import time
 
 from mpi4py import MPI
 from queue import PriorityQueue
@@ -26,6 +27,7 @@ if __name__ == '__main__':
     c = conn.cursor()
     
     if rank == 0:
+        print(time.time())
         json_data = open(JSON_PATH, 'r')
         
         child_rank = 1 % size
@@ -82,7 +84,8 @@ if __name__ == '__main__':
 
     # gathered_chunks = comm.Igather(outrv, root=0)
 
-    # if rank == 0:
+    if rank == 0:
+        print(time.time())
     #     print(gathered_chunks)       
 
     conn.close()
