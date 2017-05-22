@@ -36,6 +36,7 @@ if __name__ == '__main__':
 
             if child_rank != 0:
                 comm.send(chunk_asin, dest=child_rank, tag=7)
+                print('chunk {} sent!'.format(child_rank))
             
             child_rank = (child_rank + 1) % size
 
