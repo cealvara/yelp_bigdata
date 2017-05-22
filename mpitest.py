@@ -17,7 +17,7 @@ STEP = int(NUMROWS/size) + 1
 
 TOP_K_VALUE = 10
 
-ASIN_RE = re.compile("'asin': '(\w+)'",row)
+ASIN_RE = re.compile(r"'asin': '(\w+)'")
 
 if __name__ == '__main__':
     
