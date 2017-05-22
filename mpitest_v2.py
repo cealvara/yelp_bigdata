@@ -79,6 +79,7 @@ if __name__ == '__main__':
                 outlist.put(curr_min_info)
         
         print(line)
+        counter += 1
         if counter > 3:
             break
 
