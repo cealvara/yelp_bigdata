@@ -72,7 +72,7 @@ if __name__ == '__main__':
                 outlist.put(curr_min_info)
 
     outrv = []
-    while outlist:
+    while not outlist.empty():
         outrv.append(outlist.get())
     print(outrv, "in machine", rank)
 
