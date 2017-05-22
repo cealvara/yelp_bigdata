@@ -20,6 +20,31 @@ TOP_K_VALUE = 10
 
 ASIN_RE = re.compile(r"'asin': '(\w+)'")
 
+def chunk_data(json_data):   
+    child_rank = 1 % size
+    line = json_data.readline()
+    while line:
+        chunk_asin = []
+        counter = 0
+
+        while counter <= STEP and line:
+            asin = ASIN_RE.search(line).group(0)
+            #data = ast.literal_eval(line)
+            #asin = data['asin']
+            chunk_asin.append(asin)
+            counter += 1
+            line = json_data.readline()
+
+        if child_rank != 0:
+            comm.send(chunk_asin, dest=child_rank, tag=7)
+            print('chunk {} sent!'.format(child_rank))
+        
+        # if child_rank == 0:
+        #     break
+        child_rank = (child_rank + 1) % size
+
+    return chunk_asin
+
 if __name__ == '__main__':
     
     conn = sqlite3.connect(DB_PATH)
@@ -28,30 +53,11 @@ if __name__ == '__main__':
     
     if rank == 0:
         print(time.time())
+
         json_data = open(JSON_PATH, 'r')
+    
+        chunk_asin = chunk_data(json_data)
         
-        child_rank = 1 % size
-        line = json_data.readline()
-        while line:
-            chunk_asin = []
-            counter = 0
-
-            while counter <= STEP and line:
-                asin = ASIN_RE.search(line).group(0)
-                #data = ast.literal_eval(line)
-                #asin = data['asin']
-                chunk_asin.append(asin)
-                counter += 1
-                line = json_data.readline()
-
-            if child_rank != 0:
-                comm.send(chunk_asin, dest=child_rank, tag=7)
-                print('chunk {} sent!'.format(child_rank))
-            
-            if child_rank == 0:
-                break
-            child_rank = (child_rank + 1) % size
-
         json_data.close()
     
     else:
@@ -82,7 +88,7 @@ if __name__ == '__main__':
         outrv.append(outlist.get())
     print(outrv, "in machine", rank)
 
-    # gathered_chunks = comm.Igather(outrv, root=0)
+    gathered_chunks = comm.Igather(outrv, root=0)
 
     if rank == 0:
         print(time.time())
