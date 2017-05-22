@@ -31,8 +31,7 @@ if __name__ == '__main__':
             chunk_asin = []
             counter = 0
 
-            while counter <= 100 and line:
-                print(counter)
+            while counter <= 10 and line:
                 data = ast.literal_eval(line)
                 asin = data['asin']
                 chunk_asin.append(asin)
@@ -51,6 +50,8 @@ if __name__ == '__main__':
     
     else:
         chunk_asin = comm.recv(source=0, tag=7)
+
+    print(chunk_asin, "in machine", rank)
 
     outlist = PriorityQueue(maxsize=TOP_K_VALUE)
 
