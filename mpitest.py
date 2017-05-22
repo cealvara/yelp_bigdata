@@ -32,6 +32,7 @@ if __name__ == '__main__':
             counter = 0
 
             while counter <= STEP and line:
+                print(counter)
                 data = ast.literal_eval(line)
                 asin = data['asin']
                 chunk_asin.append(asin)
