@@ -14,7 +14,7 @@ DB_PATH = '/mnt/storage/metadata.db'
 NUMROWS = 9430088
 STEP = int(NUMROWS/size) + 1
 
-TOP_K_VALUE = 3
+TOP_K_VALUE = 10
 
 if __name__ == '__main__':
     
@@ -31,7 +31,7 @@ if __name__ == '__main__':
             chunk_asin = []
             counter = 0
 
-            while counter <= 10 and line:
+            while counter <= STEP and line:
                 data = ast.literal_eval(line)
                 asin = data['asin']
                 chunk_asin.append(asin)
