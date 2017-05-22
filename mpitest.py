@@ -31,7 +31,7 @@ if __name__ == '__main__':
             chunk_asin = []
             counter = 0
 
-            while counter <= STEP and line:
+            while counter <= 100 and line:
                 print(counter)
                 data = ast.literal_eval(line)
                 asin = data['asin']
@@ -43,6 +43,8 @@ if __name__ == '__main__':
                 comm.send(chunk_asin, dest=child_rank, tag=7)
                 print('chunk {} sent!'.format(child_rank))
             
+            if child_rank == 0:
+                break
             child_rank = (child_rank + 1) % size
 
         json_data.close()
