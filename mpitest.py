@@ -88,7 +88,7 @@ if __name__ == '__main__':
         outrv.append(outlist.get())
     print(outrv, "in machine", rank)
 
-    gathered_chunks = comm.Igather(outrv, root=0)
+    gathered_chunks = comm.gather(outrv, root=0)
 
     if rank == 0:
         print(time.time())
