@@ -28,7 +28,7 @@ def chunk_data(json_data):
         counter = 0
 
         while counter <= STEP and line:
-            asin = ASIN_RE.search(line).group(0)
+            asin = ASIN_RE.search(line).group(1)
             #data = ast.literal_eval(line)
             #asin = data['asin']
             chunk_asin.append(asin)
@@ -92,6 +92,6 @@ if __name__ == '__main__':
 
     if rank == 0:
         print(time.time())
-    #     print(gathered_chunks)       
+        print(gathered_chunks)       
 
     conn.close()
