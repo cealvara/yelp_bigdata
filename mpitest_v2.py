@@ -56,7 +56,7 @@ if __name__ == '__main__':
 
     curr_pos = file_range[0]
     json_data.seek(curr_pos)
-
+    counter = 0
     while curr_pos < file_range[1]:
         line = json_data.readline()
         curr_pos = json_data.tell()
@@ -77,6 +77,10 @@ if __name__ == '__main__':
                 outlist.put(pair_info)
             else:
                 outlist.put(curr_min_info)
+        
+        print(line)
+        if counter > 3:
+            break
 
     outrv = []
     while not outlist.empty():
