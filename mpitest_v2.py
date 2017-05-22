@@ -45,7 +45,7 @@ if __name__ == '__main__':
     
     if rank == 0:
         print(time.time())
-        file_ranges = get_file_ranges(JSON_PATH)
+        file_ranges = get_file_ranges(JSON_PATH, size)
     else:
         file_ranges = None
 
@@ -55,6 +55,7 @@ if __name__ == '__main__':
     outlist = PriorityQueue(maxsize=TOP_K_VALUE)
 
     curr_pos = file_range[0]
+    json_data.seek(curr_pos)
 
     while curr_pos < file_range[1]:
         line = json_data.readline()
