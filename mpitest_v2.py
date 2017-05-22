@@ -21,18 +21,19 @@ ASIN_RE = re.compile(r"'asin': '(\w+)'")
 def get_file_ranges(fname, chunks):
     f = open(fname)
 
-    f.seek(0,2)
-    fsize = f.tell()
+    fsize = f.seek(0,2)
 
     ranges = []
     chunk_size = fsize / chunks
     start = 0
-    for i in range(chunks):
+    for i in range(chunks - 1):
         f.seek(start + chunk_size)
         l = f.readline()
         end = f.tell()
         ranges.append( (start, end) )
         start = end
+
+    ranges.append( (start, fsize) )
 
     f.close()
     return ranges
@@ -46,6 +47,7 @@ if __name__ == '__main__':
     if rank == 0:
         print(time.time())
         file_ranges = get_file_ranges(JSON_PATH, size)
+        print(file_ranges, " from machine ", rank)
     else:
         file_ranges = None
 
