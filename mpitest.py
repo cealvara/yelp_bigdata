@@ -26,15 +26,17 @@ if __name__ == '__main__':
         json_data = open(JSON_PATH, 'r')
         
         child_rank = 1 % size
-        while json_data:
+        line = json_data.readline()
+        while line:
             chunk_asin = []
             counter = 0
 
-            while counter <= STEP and json_data:
-                line = ast.literal_eval(json_data.readline())
-                asin = line['asin']
+            while counter <= STEP and line:
+                data = ast.literal_eval(line)
+                asin = data['asin']
                 chunk_asin.append(asin)
                 counter += 1
+                line = json_data.readline()
 
             if child_rank != 0:
                 comm.send(chunk_asin, dest=child_rank, tag=7)
