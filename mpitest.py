@@ -76,9 +76,9 @@ if __name__ == '__main__':
         outrv.append(outlist.get())
     print(outrv, "in machine", rank)
 
-    if rank == 0:
-        gathered_chunks = comm.gather(outrv, root=0)
+    gathered_chunks = comm.gather(outrv, root=0)
 
+    if rank == 0:
         print(gathered_chunks)       
 
     conn.close()
