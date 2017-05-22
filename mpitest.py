@@ -68,9 +68,10 @@ if __name__ == '__main__':
             else:
                 outlist.put(curr_min_info)
 
-    gathered_chunks = comm.gather(outlist, root=0)
     
     if rank == 0:
+        gathered_chunks = comm.gather(outlist, root=0)
+
         print(gathered_chunks)       
 
     conn.close()
