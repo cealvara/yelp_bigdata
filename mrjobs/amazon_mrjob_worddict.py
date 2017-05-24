@@ -46,7 +46,7 @@ class AmazonReviewReduce(MRJob):
             if word in neg_words:
                 neg_count += 1
 
-        yield asin, [year, pos_count, neg_count, word_count]
+        yield asin, [year, pos_count, neg_count, word_count, review_score, 1]
 
 
     def reducer(self, product, info):
@@ -56,6 +56,8 @@ class AmazonReviewReduce(MRJob):
         total_prod_pos = 0
         total_prod_neg = 0
         total_prod_words = 0
+        review_score = 0
+        total_review_count = 0
 
         for review in info:
 
@@ -63,10 +65,14 @@ class AmazonReviewReduce(MRJob):
             pos_count = review[1]
             neg_count = review[2]
             total_word_count = review[3]
+            current_review_score = review[4]
+            review_count = review[5]
 
             total_prod_pos += pos_count
             total_prod_neg += neg_count
             total_prod_words += total_word_count
+            review_score += current_review_score
+            total_review_count += review_count
 
             if year not in word_dict:
                 word_dict[year] = [0,0,0]
@@ -75,8 +81,9 @@ class AmazonReviewReduce(MRJob):
             word_dict[year][1] += neg_count
             word_dict[year][2] += total_word_count
 
-        yield product, [total_prod_pos, total_prod_neg, total_prod_words, word_dict]
+        avg_score = review_score/total_review_count
+
+        yield product, [avg_score, total_review_count, total_prod_pos, total_prod_neg, total_prod_words, word_dict]
 
 if __name__ == '__main__':
-  
     AmazonReviewReduce.run()
