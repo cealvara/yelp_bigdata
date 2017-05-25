@@ -13,7 +13,7 @@ This repository contains code to analyze Amazon Product's Review data using Big 
 
 Data source: http://jmcauley.ucsd.edu/data/amazon/
 
-See **R. He, J. McAuley. Modeling the visual evolution of fashion trends with one-class collaborative filtering. WWW, 2016** and **J. McAuley, C. Targett, J. Shi, A. van den  Hengel. Image-based recommendations on styles and substitutes. SIGIR, 2015** for details.
+See *R. He, J. McAuley. Modeling the visual evolution of fashion trends with one-class collaborative filtering. WWW, 2016* and *J. McAuley, C. Targett, J. Shi, A. van den  Hengel. Image-based recommendations on styles and substitutes. SIGIR, 2015* for details.
 
 
 ## Project's tasks:
