@@ -21,12 +21,15 @@ See **R. He, J. McAuley. Modeling the visual evolution of fashion trends with on
  - 
  - 
 
-## Instructions to run MPI code:
-    1. Be sure that "main-disk" is not mounted in read/write mode in some other instance.
-    2. SSH into "base-instance-free"
+## Instructions to run MPI code
+
+    1. Be sure that "ssd-disk" is not mounted in read/write mode in some other instance.
+    2. SSH into "base-instance-free" (which has everything already configured)
     3. Go to /mnt/local/yelp_bigdata/utilities
-    4. Run *python3 start_instances N* (where N is the number of instances to be started)
-    5. Run *python3 attach_and_mount.py*
-    6. Run *python3 copy_into_instances.py FILENAME1 [FILENAME2 ...]*
-    7. SSH into instance-0
-    8. Run your command ()
+    4. Run *python3 1_start_instances N* (where N is the number of instances to be started)
+    5. Run *python3 2_attach_and_mount.py*
+    6. Run *python3 3_copy_into_instances.py FILENAME1 [FILENAME2 ...]*. FILENAME must be an absolute path (or relative to /utilities folder)
+    7. SSH into the newly created instance-0
+    8. Run your command (e.g. **mpiexec -f hosts -n 2 python3 mpitest.py**)
+
+Upon completion, exit instance-0 and delete all instances by running: *python3 end_instances.py*.
