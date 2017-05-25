@@ -2,11 +2,14 @@ import subprocess
 import sys
 import time
 
-from get_info_instances import get_info_instances
+from 1_get_info_instances import get_info_instances
 
 def create_instances(nmachines):
     '''
     Function that creates N machines on google cloud
+
+    Input: number of machines
+    Returns: Nothing (creates machines on google cloud)
     '''
     instance_list = ' '.join(
         ['instance-{}'.format(i) for i in range(nmachines)])
@@ -28,6 +31,9 @@ def create_hosts_file(instances_list):
 
 
 def copy_files(instances_list):
+    '''
+    Function to copy the SSH key and hosts file into the instances
+    '''
     for instance in instances_list:
         ext_ip = instance['EXTERNAL_IP']
         iname = instance['NAME']

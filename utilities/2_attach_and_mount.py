@@ -1,8 +1,12 @@
 import subprocess
 
-from get_info_instances import get_info_instances
+from 1_get_info_instances import get_info_instances
 
 def attach(instance, disk_name):
+    '''
+    Function to attach a given disk name into the instances
+    in read-only mode
+    '''
     instance_name = instance['NAME']
 
     command = 'gcloud compute instances ' + \
@@ -13,6 +17,9 @@ def attach(instance, disk_name):
     subprocess.call(command, shell=True)
 
 def mount(instance):
+    '''
+    Function to mount the attached disk into each instance
+    '''
     instance_name = instance['NAME']
 
     subcommand = 'sudo mkdir /mnt/storage; sudo mount /dev/sdb /mnt/storage'

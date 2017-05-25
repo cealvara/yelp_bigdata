@@ -1,8 +1,11 @@
 import subprocess
 
-from get_info_instances import get_info_instances
+from 1_get_info_instances import get_info_instances
 
-def main():
+def end_instances():
+    '''
+    Function to end all running instances (created for MPI purposes)
+    '''
     subprocess.call('rm hosts', shell=True)
     instances = get_info_instances()
     if instances:
@@ -14,4 +17,4 @@ def main():
         subprocess.call(kill_instances, shell=True)
 
 if __name__ == '__main__':
-    main()
+    end_instances()
