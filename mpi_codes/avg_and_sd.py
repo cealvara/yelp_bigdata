@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
     if rank == 0:
         # process values from all chunks to get sd by category
-        sd_by_category = g(gathered_chunks_for_avg)
+        sd_by_category = g(gathered_chunks_for_sd)
 
 
     if rank == 0:
