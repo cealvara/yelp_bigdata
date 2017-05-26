@@ -25,7 +25,7 @@ model = d2v.Doc2Vec.load('/mnt/storage/model.d2v')
 print ("Model loaded at node "+str(rank))
 
 if rank == 0:
-	connection = sqlite3.connect('metadata.db')
+	connection = sqlite3.connect('/mnt/storage/metadata.db')
 	cursor = connection.cursor()
 	executor = cursor.execute("SELECT * FROM alsoviewed;")#CHANGE_ME
 	total_count = 0

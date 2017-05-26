@@ -21,15 +21,15 @@ rank, size = comm.Get_rank(), comm.Get_size()
 
 #This takes a while (~45 s), and uses up ~6.5 GB of memory, so
 #make sure your computer can handle it
-model = d2v.Doc2Vec.load('model.d2v')
+model = d2v.Doc2Vec.load('/mnt/storage/model.d2v')
 
-connection = sqlite3.connect('metadata.db')
+connection = sqlite3.connect('/mnt/storage/metadata.db')
 cursor = connection.cursor()
 
 to_query = 10000
 
 if rank == 0:
-	master_connection = sqlite3.connect('metadata.db')
+	master_connection = sqlite3.connect('/mnt/storage/metadata.db')
 	master_cursor = master_connection.cursor()
 
 	#A comment on why the following line is done in the manner it is:

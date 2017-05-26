@@ -22,11 +22,11 @@ rank, size = comm.Get_rank(), comm.Get_size()
 
 #This takes a while (~45 s), and uses up ~6.5 GB of memory, so
 #make sure your computer can handle it
-model = d2v.Doc2Vec.load('model.d2v')
-connection = sqlite3.connect('metadata.db')
+model = d2v.Doc2Vec.load('/mnt/storage/model.d2v')
+connection = sqlite3.connect('/mnt/storage/metadata.db')
 cursor = connection.cursor()
 if rank == 0:
-	master_connection = sqlite3.connect('metadata.db')
+	master_connection = sqlite3.connect('/mnt/storage/metadata.db')
 	master_cursor = master_connection.cursor()
 	master_executor = master_cursor.execute("SELECT asin, asin2 from alsoviewed;")#CHANGE_ME
 	count_dict = defaultdict(int)
