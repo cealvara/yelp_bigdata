@@ -26,7 +26,20 @@ def get_info_total_files():
     return info_files
 
 def get_splits(info_files, k):
-    pass
+    l = sorted(info_files, reverse=True)
+    nodes = list(range(k))
+    for node in range(k):
+        nodes[node] = [l[node][0],[l[node][1]]]
+
+    for remaining in l[k:]:
+        nodes = sorted(nodes)
+        smallest = nodes[0]
+        smallest[0] += remaining[0]
+        smallest[1].append(remaining[1])
+        nodes[0] = smallest
+
+    return nodes
+
 
 def download_files_into_vms():
     pass
@@ -44,4 +57,6 @@ if __name__ == '__main__':
 
     splits = get_splits(info_files, n_instances)
     
+    print(splits)
+        
     download_files_into_vms()
