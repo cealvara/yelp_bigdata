@@ -89,6 +89,6 @@ if __name__ == '__main__':
     
     print(splits)
 
-    #download_files_into_vms(splits, instances)
+    download_files_into_vms(splits, instances)
 
     print('Finished downloading files')
