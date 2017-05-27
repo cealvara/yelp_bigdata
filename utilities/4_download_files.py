@@ -23,7 +23,9 @@ def get_info_total_files():
     subprocess.call('sudo rm info_files.txt', shell=True)
     return info_files
 
-
+def get_splits(info_files, k):
+    pass
+    
 def download_files_into_vms():
     pass
 
@@ -35,6 +37,6 @@ if __name__ == '__main__':
 
     info_files = get_info_total_files()
 
-    splits = get_splits(info_files)
+    splits = get_splits(info_files, n_instances)
     
     download_files_into_vms()
