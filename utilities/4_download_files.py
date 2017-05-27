@@ -41,8 +41,20 @@ def get_splits(info_files, k):
     return nodes
 
 
-def download_files_into_vms():
-    pass
+def download_files_into_vms(list_of_splits, instances):
+    
+    for i, (totalsize, list_of_files) in enumerate(list_of_splits):
+        instance_name = instances[i]['NAME']
+
+        for filename in list_of_files:
+
+            subcommand = 'gsutil cp {} ~/'.format(filename)
+
+            command = "gcloud compute ssh {}".format(instance_name) + \
+                " --command=' {}'".format(subcommand)
+
+            subprocess.call(command, shell=True)
+
 
 
 if __name__ == '__main__':
@@ -58,5 +70,5 @@ if __name__ == '__main__':
     splits = get_splits(info_files, n_instances)
     
     print(splits)
-        
-    download_files_into_vms()
+
+    #download_files_into_vms(splits, instances)
