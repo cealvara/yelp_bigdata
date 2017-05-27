@@ -46,7 +46,7 @@ class myThread (threading.Thread):
         self.threadID = threadID
         self.files = list_of_files
     def run(self):
-        for filename in list_of_files:
+        for filename in files:
             subcommand = 'gsutil cp {} ~/'.format(filename)
             command = "gcloud compute ssh {}".format(instance_name) + \
                 " --command=' {}'".format(subcommand)
