@@ -1,6 +1,6 @@
 import subprocess
 
-from 1_get_info_instances import get_info_instances
+from helper_get_info_instances import get_info_instances
 
 def end_instances():
     '''

@@ -2,7 +2,7 @@ import subprocess
 import sys
 import time
 
-from 1_get_info_instances import get_info_instances
+from helper_get_info_instances import get_info_instances
 
 def create_instances(nmachines):
     '''
