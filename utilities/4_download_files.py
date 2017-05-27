@@ -33,7 +33,10 @@ def download_files_into_vms():
 if __name__ == '__main__':
     instances = get_info_instances()
 
-    n_instances = len(instances)
+    try:
+        n_instances = len(instances)
+    except:
+        n_instances = 3
 
     info_files = get_info_total_files()
 
