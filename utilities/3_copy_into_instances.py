@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-from 1_get_info_instances import get_info_instances
+from helper_get_info_instances import get_info_instances
 
 def copy_files(filelist):
     '''

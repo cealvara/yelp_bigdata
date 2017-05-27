@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from 1_get_info_instances import get_info_instances
+from helper_get_info_instances import get_info_instances
 
 def get_info_total_files():
 
@@ -25,7 +25,7 @@ def get_info_total_files():
 
 def get_splits(info_files, k):
     pass
-    
+
 def download_files_into_vms():
     pass
 
