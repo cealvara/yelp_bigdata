@@ -40,9 +40,9 @@ def get_splits(info_files, k):
 
     return nodes
 
-class myThread (thread.Thread):
+class myThread (threading.Thread):
     def __init__(self, threadID, list_of_files):
-        threading.Thread.__init__(self):
+        threading.Thread.__init__(self)
         self.threadID = threadID
         self.files = list_of_files
     def run(self):
