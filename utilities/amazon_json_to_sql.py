@@ -1,3 +1,27 @@
+'''
+This program creates a sqlite3 database from the json of amazon metadata
+Reads the file metadata.json with the following format:
+{
+  "asin": "0000031852",
+  "title": "Girls Ballet Tutu Zebra Hot Pink",
+  "price": 3.17,
+  "imUrl": "http://ecx.images-amazon.com/images/I/51fAmVkTbyL._SY300_.jpg",
+  "related":
+  {
+    "also_bought": ["B00JHONN1S", "B002BZX8Z6"],
+    "also_viewed": ["B002BZX8Z6", "B00JHONN1S],
+    "bought_together": ["B002BZX8Z6"]
+  },
+  "salesRank": {"Toys & Games": 211836},
+  "brand": "Coxlures",
+  "categories": [["Sports & Outdoors", "Other Sports", "Dance"]]
+}
+Outputs the database as metadata.db with 7 tables corresponding to differnt lists
+in the metadata.json all related on product asin
+
+'''
+
+
 import json
 import os
 import sqlite3
@@ -7,6 +31,7 @@ start_time = time.time()
 
 
 def create_tables(conn, redo=False):
+    # Create the database
     c = conn.cursor()
 
     if redo:
@@ -23,38 +48,38 @@ def create_tables(conn, redo=False):
             asin TEXT PRIMARY KEY,
             description TEXT,
             title TEXT,
-            price TEXT,
+            price INT,
             brand TEXT);
         ''')
     c.execute('''
             CREATE TABLE IF NOT EXISTS ALSOVIEWED (
-            asin TEXT,
+            asin TEXT REFERENCES METADATA(asin),
             asin2 TEXT);
         ''')
     c.execute('''
             CREATE TABLE IF NOT EXISTS ALSOBOUGHT (
-            asin TEXT,
+            asin TEXT REFERENCES METADATA(asin),
             asin2 TEXT);
         ''')
     c.execute('''
             CREATE TABLE IF NOT EXISTS BOUGHTTOGETHER (
-            asin TEXT,
+            asin TEXT REFERENCES METADATA(asin),
             asin2 TEXT);
         ''')
     c.execute('''
             CREATE TABLE IF NOT EXISTS BUYAFTERVIEWING (
-            asin TEXT,
+            asin TEXT REFERENCES METADATA(asin),
             asin2 TEXT);
         ''')
     c.execute('''
             CREATE TABLE IF NOT EXISTS SALESRANK (
-            asin TEXT,
+            asin TEXT REFERENCES METADATA(asin),
             category TEXT,
             rank TEXT);
         ''')
     c.execute('''
             CREATE TABLE IF NOT EXISTS CATEGORIES (
-            asin TEXT,
+            asin TEXT REFERENCES METADATA(asin),
             categories TEXT);
         ''')
 
@@ -65,7 +90,8 @@ PATH = './'
 
 
 def json_to_sql(conn, redo=False, skip=0):
-    # print("time at beginning of json_to_sql: ", time.time() - start_time)
+    # reads the metadata.json line by line extracting information and updating
+    # the database accordingly 
     if redo:
         filename = 'metadata.json'
 
@@ -182,6 +208,17 @@ def json_to_sql(conn, redo=False, skip=0):
                     print("Finsihed", total, " in ", time.time() - start_time, " seconds")
                     loops = 0
 
+def index(conn):
+    # Indexes each table in the database according to asin to enable significantly
+    # faster querrying 
+    c = conn.cursor()
+    tables = ["ALSOVIEWED", "AlSOBOUGHT", "BOUGHTTOGETHER", "BUYAFTERVIEWING", "CATEGORIES", "SALESRANK"]
+    for x in range(6):
+        print("creating index for: ", tables[x])
+        query = "CREATE INDEX id{} ON {}(asin);".format(x, tables[x])
+        c.execute(query)
+
+
 
 def main():
     
@@ -189,7 +226,10 @@ def main():
 
     create_tables(conn, True)
 
-    json_to_sql(conn, True, skip=9330000)
+    # 9430088 -- total rows in metadata.json
+    json_to_sql(conn, True, skip=0)
+
+    index(conn)
 
 if __name__ == '__main__':
     main()
