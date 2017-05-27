@@ -10,12 +10,11 @@ def get_info_total_files():
         info_files = []
         for line in f:
             data = line.split()
-            print(len(data))
+            filesize = int(data[0])
 
-            if len(data) == 3:
-                filesize = data[0]
+            if filesize > 0:
                 filename = data[2]
-                info_files.append( (filename, filesize))
+                info_files.append( (filesize, filename))
 
     for info in info_files:
         print(info)
