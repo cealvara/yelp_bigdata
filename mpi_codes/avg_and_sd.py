@@ -27,7 +27,7 @@ def get_values_from_file(filename):
     Reads a given file object and outputs
     tot_sum, N and list of values for SD
     '''
-    f = open(filename, 'r')
+    f = open(os.path.join(JSON_PATH, filename), 'r')
     
     conn = sqlite3.connect(POSNEG_DB)
 
