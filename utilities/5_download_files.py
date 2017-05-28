@@ -3,7 +3,7 @@ import subprocess
 import threading
 from helper_get_info_instances import get_info_instances
 
-GSPATH = 'gs://data-cs123/products_by_category'
+GSPATH = 'gs://data-cs123/products_by_category/'
 
 class myThread(threading.Thread):
     '''
