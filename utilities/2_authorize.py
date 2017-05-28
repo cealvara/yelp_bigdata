@@ -8,6 +8,9 @@ def create_hosts_file(instances_list):
     '''
     Function that creates a "hosts" file, using all instances internal IP
     '''
+    if os.path.exists('hosts'):
+        subprocess.call('rm hosts', shell=True)
+
     for instance in instances_list:
         int_ip = instance['INTERNAL_IP']
         subprocess.call('echo {} >> hosts'.format(int_ip), shell=True)
@@ -17,6 +20,7 @@ def copy_files(instances_list):
     '''
     Function to copy the SSH key and hosts file into the instances
     '''
+
     for instance in instances_list:
         ext_ip = instance['EXTERNAL_IP']
         iname = instance['NAME']
@@ -24,6 +28,8 @@ def copy_files(instances_list):
         # subprocess.call('scp -i ~/.ssh/google-cloud-cs123 -o StrictHostKeyChecking=no hosts {}:~/hosts'.format(ext_ip), shell=True)
         subprocess.call('gcloud compute copy-files ~/.ssh/google-cloud-cs123 {}:~/.ssh/id_rsa'.format(iname), shell=True)
         subprocess.call('gcloud compute copy-files hosts {}:~/'.format(iname), shell=True)
+
+    subprocess.call('rm hosts', shell=True)
 
 def ssh_into_others(instances_list):
     '''
