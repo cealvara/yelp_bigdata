@@ -17,7 +17,6 @@ class myThread(threading.Thread):
         self.instance_name = instance_name
     def run(self):
         for filename in self.files:
-            name = 
             subcommand = 'gsutil cp {p}{a} /mnt/local/data/{a}'.format(p=GSPATH, a=filename)
             command = "gcloud compute ssh {}".format(self.instance_name) + \
                 " --command=' {}'".format(subcommand)
