@@ -121,7 +121,7 @@ if __name__ == '__main__':
     gathered_data = comm.gather(all_data, root=0)
     
     if rank == 0:
-        df = pd.
+        #df = pd.
     #    print(gathered_stat)
         print(time.time())
 
