@@ -22,7 +22,7 @@ ASIN_RE = re.compile(r"'asin': '(\w+)'")
 CAT_RE = re.compile(r"meta_(\w+).json")
 
 
-def get_values_for_avg(filename):
+def get_values_from_file(filename):
     '''
     Reads a given file object and outputs
     tot_sum, N and list of values for SD
@@ -40,6 +40,8 @@ def get_values_for_avg(filename):
     list_score = []
     list_pos = []
     list_neg = []
+
+    data = []
 
     for line in f:
         asin = ASIN_RE.search(line).group(1)
@@ -75,10 +77,12 @@ def get_values_for_avg(filename):
 
         n += 1
 
+        data.append( (avg_score, avg_pos, avg_neg) )
+
     f.close()
     conn.close()
 
-    return n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg
+    return n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data
 
 
 if __name__ == '__main__':
@@ -92,13 +96,14 @@ if __name__ == '__main__':
     # GET STATS BY CATEGORY
     stat_by_category = {}
     
+    all_data = []
     for filename in metadata_json_files:
         category = CAT_RE.search(filename).group(1)
         stat_by_category[category] = {}
 
         # each VM processes the file_range to get a list of values
         # (this is like a mapper)
-        n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg = get_values_for_avg(filename)
+        n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data = get_values_from_file(filename)
 
         avg_score_cat = tot_score / n
         avg_pos_cat = tot_pos / n
@@ -110,11 +115,13 @@ if __name__ == '__main__':
 
         print(category, avg_score_cat, avg_pos_cat, avg_neg_cat, sd_score, sd_pos, sd_neg, n)
 
+        all_data.extend(data)
 
     #root VM gathers all the chunks
-    #gathered_stat = comm.gather(stat_by_category, root=0)
+    gathered_data = comm.gather(all_data, root=0)
     
     if rank == 0:
+        df = pd.
     #    print(gathered_stat)
         print(time.time())
 

@@ -12,7 +12,7 @@ def create_instances(nmachines):
     Returns: Nothing (creates machines on google cloud)
     '''
     instance_list = ' '.join(
-        ['instance-{}'.format(i) for i in range(nmachines)])
+        ['mpi-instance-{}'.format(i) for i in range(nmachines)])
     
     query = 'gcloud compute instances create ' + instance_list + \
             ' --zone=us-central1-c' + \
