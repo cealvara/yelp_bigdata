@@ -39,7 +39,7 @@ class AmazonReviewReduce(MRJob):
 
         year = review_time[-4:]
 
-        for in WORD_RE.findall(review_text):
+        for word in WORD_RE.findall(review_text):
             word_count += 1
             if word.lower() in pos_words:
                 pos_count += 1
