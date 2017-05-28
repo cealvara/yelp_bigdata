@@ -3,6 +3,8 @@ import subprocess
 import threading
 from helper_get_info_instances import get_info_instances
 
+GSPATH = 'gs://data-cs123/products_by_category'
+
 class myThread(threading.Thread):
     '''
     Thread object to download files from multiple VMs at the same time
@@ -15,7 +17,8 @@ class myThread(threading.Thread):
         self.instance_name = instance_name
     def run(self):
         for filename in self.files:
-            subcommand = 'gsutil cp {a} /mnt/local/data/{a}'.format(a=filename)
+            name = 
+            subcommand = 'gsutil cp {p}{a} /mnt/local/data/{a}'.format(p=GSPATH, a=filename)
             command = "gcloud compute ssh {}".format(self.instance_name) + \
                 " --command=' {}'".format(subcommand)
             subprocess.call(command, shell=True)
@@ -27,7 +30,7 @@ def get_info_total_files():
     Returns: a list of files to be copied to the VMs, along with their size
     (so we can split them by size across the VMs)
     '''
-    subprocess.call('gsutil ls -l gs://data-cs123/products_by_category > info_files.txt', shell=True)
+    subprocess.call('gsutil ls -l {} > info_files.txt'.format(GSPATH), shell=True)
     with open('info_files.txt', 'r') as f:
         info_files = []
         for line in f:
@@ -38,7 +41,8 @@ def get_info_total_files():
             filesize = int(data[0])
 
             if filesize > 0:
-                filename = data[2]
+                filepath = data[2]
+                filename = filepath[len(GSPATH):]
                 info_files.append( (filesize, filename))
 
     for info in info_files:
