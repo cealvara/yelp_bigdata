@@ -41,7 +41,7 @@ def get_values_from_file(filename):
     list_pos = []
     list_neg = []
 
-    data = []
+    data_for_ols = []
 
     for line in f:
         asin = ASIN_RE.search(line).group(1)
@@ -77,12 +77,12 @@ def get_values_from_file(filename):
 
         n += 1
 
-        data.append( (avg_score, avg_pos, avg_neg) )
+        data_for_ols.append( (avg_score, avg_pos, avg_neg) )
 
     f.close()
     conn.close()
 
-    return n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data
+    return n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data_for_ols
 
 
 if __name__ == '__main__':
@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
         # each VM processes the file_range to get a list of values
         # (this is like a mapper)
-        n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data = get_values_from_file(filename)
+        n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data_for_ols = get_values_from_file(filename)
 
         avg_score_cat = tot_score / n
         avg_pos_cat = tot_pos / n
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
         print(category, avg_score_cat, avg_pos_cat, avg_neg_cat, sd_score, sd_pos, sd_neg, n)
 
-        all_data.extend(data)
+        all_data.extend(data_for_ols)
 
     #root VM gathers all the chunks
     gathered_data = comm.gather(all_data, root=0)
