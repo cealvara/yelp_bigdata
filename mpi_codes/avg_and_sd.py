@@ -110,7 +110,7 @@ def get_values_for_avg(filename):
         
         data = query.fetchone()
         if not data:
-            print(line)
+            #print(line)
             continue
         
         avg_score, total_prod_pos, total_prod_neg, total_prod_words = data
