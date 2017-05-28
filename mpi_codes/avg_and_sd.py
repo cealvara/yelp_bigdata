@@ -41,7 +41,7 @@ def get_file_ranges(fname, chunks):
     f.close()
     return ranges
 
-def get_values_for_avg(file_range):
+def get_values_for_avg_OLD(file_range):
     base_data = open(METADATA_JSON, 'r')
     
     conn_metadata = sqlite3.connect(METADATA_DB)
@@ -99,7 +99,8 @@ def get_values_for_avg(filename):
 
     for line in f:
         asin = ASIN_RE.search(line).group(1)
-
+        if not asin:
+            continue
         #get more info from raw metadata?
         
         query = c_posneg.execute('''
