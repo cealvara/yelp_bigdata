@@ -113,6 +113,10 @@ def get_values_for_avg(filename):
             continue
         
         avg_score, total_prod_pos, total_prod_neg, total_prod_words = data
+        
+        if total_prod_words == 0:
+            continue
+
         avg_pos = total_prod_pos / total_prod_words
         avg_neg = total_prod_neg / total_prod_words
 
