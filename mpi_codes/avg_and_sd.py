@@ -108,7 +108,7 @@ if __name__ == '__main__':
         sd_pos = sum([(l - avg_pos_cat) ** 2 for l in list_pos]) / n
         sd_neg = sum([(l - avg_neg_cat) ** 2 for l in list_neg]) / n
 
-        print(category, n, avg_score_cat, avg_pos_cat, sd_score, sd_pos, sd_neg)
+        print(category, avg_score_cat, avg_pos_cat, avg_neg_cat, sd_score, sd_pos, sd_neg, n)
 
 
     #root VM gathers all the chunks
