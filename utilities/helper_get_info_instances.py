@@ -29,7 +29,7 @@ def get_info_instances():
 
             instance[column_name] = line[ini_pos:end_pos].strip()
         
-        if instance['NAME'] != 'base-instance-free':
+        if 'mpi-instance' in instance['NAME']:
             instances.append(instance)
 
     print(instances)
