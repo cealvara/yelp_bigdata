@@ -3,8 +3,30 @@ import subprocess
 import threading
 from helper_get_info_instances import get_info_instances
 
-def get_info_total_files():
+class myThread(threading.Thread):
+    '''
+    Thread object to download files from multiple VMs at the same time
+    (not having to wait for one VM to finish to start the other)
+    '''
+    def __init__(self, threadID, list_of_files, instance_name):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.files = list_of_files
+        self.instance_name = instance_name
+    def run(self):
+        for filename in self.files:
+            subcommand = 'gsutil cp {a} /mnt/local/data/{a}'.format(filename)
+            command = "gcloud compute ssh {}".format(self.instance_name) + \
+                " --command=' {}'".format(subcommand)
+            subprocess.call(command, shell=True)
 
+def get_info_total_files():
+    '''
+    Preliminary function to get the list of files to be copied to the VMs
+
+    Returns: a list of files to be copied to the VMs, along with their size
+    (so we can split them by size across the VMs)
+    '''
     subprocess.call('gsutil ls -l gs://data-cs123/products_by_category > info_files.txt', shell=True)
     with open('info_files.txt', 'r') as f:
         info_files = []
@@ -26,6 +48,12 @@ def get_info_total_files():
     return info_files
 
 def get_splits(info_files, k):
+    '''
+    Function to split a list of (filesize, filename)
+    into K buckets (for K VMs)
+
+    Returns: a list with K lists, one for each VM
+    '''
     l = sorted(info_files, reverse=True)
     nodes = list(range(k))
     for node in range(k):
@@ -40,22 +68,14 @@ def get_splits(info_files, k):
 
     return nodes
 
-class myThread (threading.Thread):
-    def __init__(self, threadID, list_of_files, instance_name):
-        threading.Thread.__init__(self)
-        self.threadID = threadID
-        self.files = list_of_files
-        self.instance_name = instance_name
-    def run(self):
-        for filename in self.files:
-            subcommand = 'gsutil cp {a} /mnt/local/data/{a}'.format(filename)
-            command = "gcloud compute ssh {}".format(self.instance_name) + \
-                " --command=' {}'".format(subcommand)
-            subprocess.call(command, shell=True)
 
 
 def download_files_into_vms(list_of_splits, instances):
+    '''
+    Main Function. It downloads files from GS to each instances
 
+    It uses multithreading, to avoid waiting between downloads.
+    '''
     threads = []
     
     for i, (totalsize, list_of_files) in enumerate(list_of_splits):
