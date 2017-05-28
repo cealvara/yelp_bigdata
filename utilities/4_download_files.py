@@ -61,14 +61,8 @@ def download_files_into_vms(list_of_splits, instances):
     for i, (totalsize, list_of_files) in enumerate(list_of_splits):
         instance_name = instances[i]['NAME']
 
-        thread = myThread(i,list_of_files, instance_name)
+        thread = myThread(i, list_of_files, instance_name)
         threads.append(thread)
-
-        # for filename in list_of_files:
-        #     subcommand = 'gsutil cp {} ~/'.format(filename)
-        #     command = "gcloud compute ssh {}".format(instance_name) + \
-        #         " --command=' {}'".format(subcommand)
-        #     subprocess.call(command, shell=True)
 
     for thread in threads:
         thread.start()
