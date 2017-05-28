@@ -156,18 +156,21 @@ if __name__ == '__main__':
         # (this is like a mapper)
         n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg = get_values_for_avg(filename)
 
-        stat_by_category[category]['Mean'] = tot_score / n 
+        avg_score_cat = tot_score / n 
+        avg_pos_cat = tot_pos / n 
+        avg_neg_cat = tot_neg / n 
 
-        stat_by_category[category]['SD'] = sum(
-            [(l - tot_score / n) ** 2 for l in list_score]) / n
+        sd_score = sum([(l - avg_score_cat) ** 2 for l in list_score]) / n
+        sd_pos = sum([(l - avg_pos_cat) ** 2 for l in list_pos]) / n
+        sd_neg = sum([(l - avg_neg_cat) ** 2 for l in list_neg]) / n
 
-        print(category, n, stat_by_category[category]['Mean'], stat_by_category[category]['SD'])
+        print(category, n, avg_score_cat, avg_pos_cat, sd_score, sd_pos, sd_neg)
 
 
     #root VM gathers all the chunks
-    gathered_stat = comm.gather(stat_by_category, root=0)
+    #gathered_stat = comm.gather(stat_by_category, root=0)
     
     if rank == 0:
-        print(gathered_stat)
+    #    print(gathered_stat)
         print(time.time())
 
