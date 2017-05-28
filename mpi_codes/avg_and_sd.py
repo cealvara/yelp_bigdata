@@ -14,9 +14,9 @@ name = MPI.Get_processor_name()
 
 METADATA_DB = '/mnt/storage/metadata.db'
 
-# JACOB: PLEASE CREATE A NEW DB WITH TOM'S OUTPUT, CALLED "posneg.db"
-
 POSNEG_DB = '/mnt/storage/reviews_analysis.db'
+
+JSON_PATH = '/mnt/local/data/'
 
 ASIN_RE = re.compile(r"'asin': '(\w+)'")
 CAT_RE = re.compile(r"meta_(\w+).json")
@@ -87,7 +87,7 @@ def get_values_from_file(filename):
 
 if __name__ == '__main__':
     
-    metadata_json_files = [f for f in os.listdir() if '.json' in f]
+    metadata_json_files = [f for f in os.listdir(JSON_PATH) if '.json' in f]
     
     if rank == 0:
         print(time.time())
