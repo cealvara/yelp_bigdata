@@ -11,7 +11,7 @@ def copy_files(filelist):
     for filename in filelist:
         assert os.path.exists(filename), 'Invalid filename'
 
-        files += ' ' + filename
+        files = ' '.join(filelist)
 
     for instance in instances_list:
         iname = instance['NAME']
