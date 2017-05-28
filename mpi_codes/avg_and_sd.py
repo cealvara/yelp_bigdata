@@ -107,11 +107,12 @@ def get_values_for_avg(filename):
             from scores 
             where asin=?;''', (asin,))
         
-        if not query:
+        data = query.fetchone()
+        if not data:
             print(line)
             continue
         
-        avg_score, total_prod_pos, total_prod_neg, total_prod_words = query.fetchone()
+        avg_score, total_prod_pos, total_prod_neg, total_prod_words = data
         avg_pos = total_prod_pos / total_prod_words
         avg_neg = total_prod_neg / total_prod_words
 
@@ -126,6 +127,7 @@ def get_values_for_avg(filename):
         n += 1
 
     f.close()
+    conn.close()
 
     return n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg
 
