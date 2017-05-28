@@ -21,62 +21,6 @@ POSNEG_DB = '/mnt/storage/reviews_analysis.db'
 ASIN_RE = re.compile(r"'asin': '(\w+)'")
 CAT_RE = re.compile(r"meta_(\w+).json")
 
-def get_file_ranges(fname, chunks):
-    f = open(fname)
-
-    fsize = f.seek(0,2)
-
-    ranges = []
-    chunk_size = fsize / chunks
-    start = 0
-    for i in range(chunks - 1):
-        f.seek(start + chunk_size)
-        l = f.readline()
-        end = f.tell()
-        ranges.append( (start, end) )
-        start = end
-
-    ranges.append( (start, fsize) )
-
-    f.close()
-    return ranges
-
-def get_values_for_avg_OLD(file_range):
-    base_data = open(METADATA_JSON, 'r')
-    
-    conn_metadata = sqlite3.connect(METADATA_DB)
-    conn_posneg = sqlite3.connect(POSNEG_DB)
-    
-    c_metadata = conn_metadata.cursor()
-    c_posneg = conn_posneg.cursor()
-
-    outlist = []
-    curr_pos = file_range[0]
-    base_data.seek(curr_pos)
-
-    while curr_pos < file_range[1]:
-        line = base_data.readline()
-        curr_pos = base_data.tell()
-
-        asin = ASIN_RE.search(line).group(1)
-
-        #here we should query both the metadata and the posneg databases
-        query = c_metadata.execute('''select count(asin2) from ALSOVIEWED where asin=?;''', (asin,))
-
-        count = query.fetchone()[0]
-
-        pair_info = (asin, count)
-
-        outlist.append(pair_info)
-
-    base_data.close()
-    conn_metadata.close()
-    conn_posneg.close()
-
-    #here, outlist should be a list of tuples with:
-    # (category name, sum of positives, sum of negatives, ...)
-    return outlist
-
 
 def get_values_for_avg(filename):
     '''
