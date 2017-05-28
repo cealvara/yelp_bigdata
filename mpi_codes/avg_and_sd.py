@@ -100,9 +100,9 @@ if __name__ == '__main__':
         # (this is like a mapper)
         n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg = get_values_for_avg(filename)
 
-        avg_score_cat = tot_score / n 
-        avg_pos_cat = tot_pos / n 
-        avg_neg_cat = tot_neg / n 
+        avg_score_cat = tot_score / n
+        avg_pos_cat = tot_pos / n
+        avg_neg_cat = tot_neg / n
 
         sd_score = sum([(l - avg_score_cat) ** 2 for l in list_score]) / n
         sd_pos = sum([(l - avg_pos_cat) ** 2 for l in list_pos]) / n
