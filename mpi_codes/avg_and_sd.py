@@ -106,6 +106,11 @@ def get_values_for_avg(filename):
             select avg_score, total_prod_pos, total_prod_neg, total_prod_words 
             from scores 
             where asin=?;''', (asin,))
+        
+        if not query:
+            print(line)
+            continue
+        
         avg_score, total_prod_pos, total_prod_neg, total_prod_words = query.fetchone()
         avg_pos = total_prod_pos / total_prod_words
         avg_neg = total_prod_neg / total_prod_words
