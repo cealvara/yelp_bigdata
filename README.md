@@ -24,10 +24,13 @@ See *R. He, J. McAuley. Modeling the visual evolution of fashion trends with one
 1. Be sure that "ssd-disk" is not mounted in read/write mode in some other instance.
 2. SSH into "base-instance-free" (which has everything already configured)
 3. Go to /mnt/local/yelp_bigdata/utilities
-4. Run *python3 1_start_instances.py N* (where N is the number of instances to be started)
-5. Run *python3 2_attach_and_mount.py*
-6. Run *python3 3_copy_into_instances.py FILENAME1 [FILENAME2 ...]*. FILENAME must be an absolute path (or relative to /utilities folder)
-7. SSH into the newly created instance-0
-8. Run your command (e.g. **mpiexec -f hosts -n 2 python3 mpitest.py**)
+4. If instances are created, procede to next step.
+    4. To create instances, run *python3 1_start_instances.py N* (where N is the number of instances to be started)
+5. Run *python3 2_authorize.py*
+6. Run *python3 3_attach_and_mount.py*
+7. Run *python3 4_copy_into_instances.py FILENAME1 [FILENAME2 ...]*. FILENAME must be an absolute path (or relative to /utilities folder)
+8. Run *python3 5_download_files.py*
+9. SSH into the newly created instance-0 (see external IP on screen)
+10. Run your command (e.g. **mpiexec -f hosts -n 2 python3 mpitest.py**)
 
-Upon completion, exit instance-0 and delete all instances by running: *python3 end_instances.py*.
+Upon completion, exit instance-0 and delete all instances by running: *python3 6_end_instances.py*.
