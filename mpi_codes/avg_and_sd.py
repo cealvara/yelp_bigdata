@@ -161,6 +161,8 @@ if __name__ == '__main__':
         stat_by_category[category]['SD'] = sum(
             [(l - tot_score / n) ** 2 for l in list_score]) / n
 
+        print(category, n, stat_by_category[category]['Mean'], stat_by_category[category]['SD'])
+
 
     #root VM gathers all the chunks
     gathered_stat = comm.gather(stat_by_category, root=0)
