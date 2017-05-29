@@ -1,4 +1,6 @@
+import pandas as pd
 import pickle
+ 
 
 if __name__ == '__main__':
     
@@ -11,5 +13,7 @@ if __name__ == '__main__':
         for row in chunk:
             data.append(row)
 
-    print('here')
-    print(len(data))
+    df = pd.DataFrame(data)
+
+    print(df.columns)
+    print(df.head())
