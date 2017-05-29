@@ -16,7 +16,8 @@ def create_instances(nmachines):
     
     query = 'gcloud compute instances create ' + instance_list + \
             ' --zone=us-central1-c' + \
-            ' --metadata-from-file=startup-script=base_script.sh'
+            ' --metadata-from-file=startup-script=base_script.sh' + \
+            ' --boot-disk-size=50GB'
 
     print(query)
     subprocess.call(query, shell=True)
