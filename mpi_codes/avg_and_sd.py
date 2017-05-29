@@ -23,7 +23,7 @@ ASIN_RE = re.compile(r"'asin': '(\w+)'")
 CAT_RE = re.compile(r"meta_(\w+).json")
 
 
-def get_values_from_file(filename):
+def get_values_from_file(filename, rank_cat_id):
     '''
     Reads a given file object and outputs
     tot_sum, N and list of values for SD
@@ -78,7 +78,7 @@ def get_values_from_file(filename):
 
         n += 1
 
-        data_for_ols.append( (avg_score, avg_pos, avg_neg) )
+        data_for_ols.append( (rank_cat_id, avg_score, avg_pos, avg_neg) )
 
     f.close()
     conn.close()
@@ -98,13 +98,14 @@ if __name__ == '__main__':
     stat_by_category = {}
     
     all_data = []
-    for filename in metadata_json_files:
+    for i, filename in enumerate(metadata_json_files):
+        rank_cat_id = '{}-{}'.format(rank, i)
         category = CAT_RE.search(filename).group(1)
         stat_by_category[category] = {}
 
         # each VM processes the file_range to get a list of values
         # (this is like a mapper)
-        n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data_for_ols = get_values_from_file(filename)
+        n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data_for_ols = get_values_from_file(filename, rank_cat_id)
 
         avg_score_cat = tot_score / n
         avg_pos_cat = tot_pos / n
