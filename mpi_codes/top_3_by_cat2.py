@@ -6,6 +6,7 @@ from mpi4py import MPI
 
 start_time = time.time()
 METADATA_DB = '~/metadata.db'
+DATA_PATH = "/mnt/local/data/"
 
 ASIN_RE = re.compile(r"'asin': '(\w+)'")
 CAT_RE = re.compile(r"meta_(\w+).json")
@@ -18,7 +19,7 @@ name = MPI.Get_processor_name()
 
 
 def get_values_for_avg(filename):
-	f = open(filename, 'r')
+	f = open(os.path.join(DATA_PATH, filename), 'r')
 	
 	conn = sqlite3.connect(METADATA_DB)
 
@@ -87,7 +88,7 @@ def get_values_for_avg(filename):
 
 if __name__ == '__main__':
 
-	metadata_json_files = [f for f in os.listdir("/mnt/local/data/") if '.json' in f]
+	metadata_json_files = [f for f in os.listdir(DATA_PATH) if '.json' in f]
 
 
 	if rank == 0:
