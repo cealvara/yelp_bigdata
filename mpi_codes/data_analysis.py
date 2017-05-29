@@ -23,6 +23,7 @@ if __name__ == '__main__':
 
     model.fit(X, y)
 
+    print(dir(model))
     try:
         print(model.coef_)
     except:
