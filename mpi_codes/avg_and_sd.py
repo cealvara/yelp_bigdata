@@ -2,6 +2,7 @@ import os
 import re
 import sqlite3
 import time
+import pickle
 
 from mpi4py import MPI
 from queue import PriorityQueue
@@ -120,8 +121,10 @@ if __name__ == '__main__':
     #root VM gathers all the chunks
     gathered_data = comm.gather(all_data, root=0)
     
+    with open('data_storage.pkl', 'wb') as f:
+        pickle.dump(gathered_data, f)
+
     if rank == 0:
-        #df = pd.
     #    print(gathered_stat)
         print(time.time())
 
