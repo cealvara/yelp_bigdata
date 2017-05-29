@@ -5,7 +5,7 @@ import os
 from mpi4py import MPI
 
 start_time = time.time()
-METADATA_DB = '~/metadata.db'
+METADATA_DB = 'metadata.db'
 DATA_PATH = "/mnt/local/data/"
 
 ASIN_RE = re.compile(r"'asin': '(\w+)'")
