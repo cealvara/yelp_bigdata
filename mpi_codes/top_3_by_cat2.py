@@ -5,7 +5,7 @@ import os
 from mpi4py import MPI
 
 start_time = time.time()
-METADATA_DB = './metadata.db'
+METADATA_DB = '~/metadata.db'
 
 ASIN_RE = re.compile(r"'asin': '(\w+)'")
 CAT_RE = re.compile(r"meta_(\w+).json")
@@ -87,7 +87,7 @@ def get_values_for_avg(filename):
 
 if __name__ == '__main__':
 
-	metadata_json_files = [f for f in os.listdir("./") if '.json' in f]
+	metadata_json_files = [f for f in os.listdir("/mnt/local/data/") if '.json' in f]
 
 
 	if rank == 0:
