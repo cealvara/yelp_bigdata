@@ -2,6 +2,7 @@ import os
 import re
 import sqlite3
 import time
+import pickle
 
 from mpi4py import MPI
 from queue import PriorityQueue
@@ -14,20 +15,20 @@ name = MPI.Get_processor_name()
 
 METADATA_DB = '/mnt/storage/metadata.db'
 
-# JACOB: PLEASE CREATE A NEW DB WITH TOM'S OUTPUT, CALLED "posneg.db"
-
 POSNEG_DB = '/mnt/storage/reviews_analysis.db'
+
+JSON_PATH = '/mnt/local/data/'
 
 ASIN_RE = re.compile(r"'asin': '(\w+)'")
 CAT_RE = re.compile(r"meta_(\w+).json")
 
 
-def get_values_for_avg(filename):
+def get_values_from_file(filename, rank_cat_id):
     '''
     Reads a given file object and outputs
     tot_sum, N and list of values for SD
     '''
-    f = open(filename, 'r')
+    f = open(os.path.join(JSON_PATH, filename), 'r')
     
     conn = sqlite3.connect(POSNEG_DB)
 
@@ -40,6 +41,8 @@ def get_values_for_avg(filename):
     list_score = []
     list_pos = []
     list_neg = []
+
+    data_for_ols = []
 
     for line in f:
         asin = ASIN_RE.search(line).group(1)
@@ -75,15 +78,17 @@ def get_values_for_avg(filename):
 
         n += 1
 
+        data_for_ols.append( (rank_cat_id, avg_score, avg_pos, avg_neg) )
+
     f.close()
     conn.close()
 
-    return n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg
+    return n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data_for_ols
 
 
 if __name__ == '__main__':
     
-    metadata_json_files = [f for f in os.listdir() if '.json' in f]
+    metadata_json_files = [f for f in os.listdir(JSON_PATH) if '.json' in f]
     
     if rank == 0:
         print(time.time())
@@ -92,17 +97,19 @@ if __name__ == '__main__':
     # GET STATS BY CATEGORY
     stat_by_category = {}
     
-    for filename in metadata_json_files:
+    all_data = []
+    for i, filename in enumerate(metadata_json_files):
+        rank_cat_id = '{}-{}'.format(rank, i)
         category = CAT_RE.search(filename).group(1)
         stat_by_category[category] = {}
 
         # each VM processes the file_range to get a list of values
         # (this is like a mapper)
-        n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg = get_values_for_avg(filename)
+        n, tot_score, tot_pos, tot_neg, list_score, list_pos, list_neg, data_for_ols = get_values_from_file(filename, rank_cat_id)
 
-        avg_score_cat = tot_score / n 
-        avg_pos_cat = tot_pos / n 
-        avg_neg_cat = tot_neg / n 
+        avg_score_cat = tot_score / n
+        avg_pos_cat = tot_pos / n
+        avg_neg_cat = tot_neg / n
 
         sd_score = sum([(l - avg_score_cat) ** 2 for l in list_score]) / n
         sd_pos = sum([(l - avg_pos_cat) ** 2 for l in list_pos]) / n
@@ -110,11 +117,15 @@ if __name__ == '__main__':
 
         print(category, avg_score_cat, avg_pos_cat, avg_neg_cat, sd_score, sd_pos, sd_neg, n)
 
+        all_data.extend(data_for_ols)
 
     #root VM gathers all the chunks
-    #gathered_stat = comm.gather(stat_by_category, root=0)
+    gathered_data = comm.gather(all_data, root=0)
     
     if rank == 0:
+        with open('data_storage.pkl', 'wb') as f:
+            pickle.dump(gathered_data, f)
+    
     #    print(gathered_stat)
         print(time.time())
 

@@ -6,7 +6,6 @@ def end_instances():
     '''
     Function to end all running instances (created for MPI purposes)
     '''
-    subprocess.call('rm hosts', shell=True)
     instances = get_info_instances()
     if instances:
 
