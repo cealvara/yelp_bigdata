@@ -1,6 +1,7 @@
 import pandas as pd
 import pickle
- 
+
+from sklearn.linear_model import LinearRegression 
 
 if __name__ == '__main__':
     
@@ -15,5 +16,16 @@ if __name__ == '__main__':
 
     df = pd.DataFrame(data)
 
+    X = df[[1, 2]]
+    y = df[[0]]
+
+    model = LinearRegression()
+
+    model.fit(X, y)
+
+    try:
+        print(model.coef_)
+    except:
+        pass
     print(df.columns)
     print(df.head())
