@@ -16,7 +16,15 @@ Data source: http://jmcauley.ucsd.edu/data/amazon/
 See *R. He, J. McAuley. Modeling the visual evolution of fashion trends with one-class collaborative filtering. WWW, 2016* and *J. McAuley, C. Targett, J. Shi, A. van den  Hengel. Image-based recommendations on styles and substitutes. SIGIR, 2015* for details.
 
 
-## Project's pipeline:
+## Project's structure:
+
+    ./analysis --> Contains code related to the linguistic analysis
+
+    ./mpi_codes --> MPI scripts for Pos/Neg analysis
+    ./mrjobs --> MapReduce scripts for Pos/Neg analysis
+    ./utilities --> Several "management" scripts, including semi-automatic MPI configuration 
+
+    ./not_used --> Code for some stuff we tried and didn't use
 
 
 ## Instructions to run MPI code
