@@ -5,17 +5,12 @@ import os
 from mpi4py import MPI
 
 start_time = time.time()
-<<<<<<< HEAD
-METADATA_DB = './metadata.db'
-=======
 METADATA_DB = 'metadata.db'
 DATA_PATH = "/mnt/local/data/"
->>>>>>> 465b36c8976d70ca0a54b832a79eecf2752ec37a
 
 ASIN_RE = re.compile(r"'asin': '(\w+)'")
 CAT_RE = re.compile(r"meta_(\w+).json")
 # CAT_RE = re.compile(r"(\w+).json")
-FILE_PATH = "./products_by_category/products_by_category/"
 
 comm = MPI.COMM_WORLD
 size = MPI.COMM_WORLD.Get_size()
@@ -24,11 +19,7 @@ name = MPI.Get_processor_name()
 
 
 def get_values_for_avg(filename):
-<<<<<<< HEAD
-	f = open(FILE_PATH+filename, 'r')
-=======
 	f = open(os.path.join(DATA_PATH, filename), 'r')
->>>>>>> 465b36c8976d70ca0a54b832a79eecf2752ec37a
 	
 	conn = sqlite3.connect(METADATA_DB)
 
@@ -97,11 +88,7 @@ def get_values_for_avg(filename):
 
 if __name__ == '__main__':
 
-<<<<<<< HEAD
-	metadata_json_files = [f for f in os.listdir(FILE_PATH) if '.json' in f]
-=======
 	metadata_json_files = [f for f in os.listdir(DATA_PATH) if '.json' in f]
->>>>>>> 465b36c8976d70ca0a54b832a79eecf2752ec37a
 
 
 	if rank == 0:
@@ -120,18 +107,3 @@ if __name__ == '__main__':
 		stat_by_category[category] = {'also_viewed':sorted_views,'also_bought':sorted_bought,'buy_after_viewing':sorted_buy_after}
 		print("Rank: ", rank, " Done with Category: ", category," Time: ", time.time() - start_time)
 	print(stat_by_category)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
