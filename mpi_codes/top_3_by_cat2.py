@@ -5,6 +5,7 @@ import os
 from mpi4py import MPI
 
 start_time = time.time()
+
 METADATA_DB = 'metadata.db'
 DATA_PATH = "/mnt/local/data/"
 
@@ -19,6 +20,10 @@ name = MPI.Get_processor_name()
 
 
 def get_values_for_avg(filename):
+	'''
+	Function to process a given file and extract relevant information from
+	it and other sources (SQL tables)
+	'''
 	f = open(os.path.join(DATA_PATH, filename), 'r')
 	
 	conn = sqlite3.connect(METADATA_DB)
@@ -88,11 +93,12 @@ def get_values_for_avg(filename):
 
 if __name__ == '__main__':
 
+	#get list of json files that exist in our data_path directory
 	metadata_json_files = [f for f in os.listdir(DATA_PATH) if '.json' in f]
 
 
 	if rank == 0:
-		print(time.time())
+		print(start_time)
 
 	stat_by_category = {}
 
@@ -106,4 +112,5 @@ if __name__ == '__main__':
 		
 		stat_by_category[category] = {'also_viewed':sorted_views,'also_bought':sorted_bought,'buy_after_viewing':sorted_buy_after}
 		print("Rank: ", rank, " Done with Category: ", category," Time: ", time.time() - start_time)
+
 	print(stat_by_category)
