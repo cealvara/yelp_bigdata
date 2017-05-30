@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains code to analyze Amazon Product's Review data using Big Data techniques. In particular, we used Parallel Processing (TBC BY MICHAEL), MapReduce and MPI.
+This repository contains code to analyze Amazon Product's Review data using Big Data techniques. In particular, we used MultiThreading, MapReduce and MPI in different parts of our processes to extract and process data across several dimensions (reviews, products, categories, time).
 
 ## Objectives
 
